@@ -40,7 +40,7 @@ export class ExpenseTrackerPgsqlSharedClient {
     }
 
     async findAll() {
-        const [err, list] = await tc(this.repo.find({ order: { createdAt: 'DESC' } }));
+        const [err, list] = await tc(this.repo.find({ order: { created_on: 'DESC' } }));
         if (err) return new MethodOutputDto({ exception: { message: 'Failed to list expenses', error: err } });
         return new MethodOutputDto({ result: { message: 'Expenses retrieved', data: list } });
     }
