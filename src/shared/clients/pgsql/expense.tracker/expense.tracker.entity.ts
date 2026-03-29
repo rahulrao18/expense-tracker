@@ -6,6 +6,11 @@ import {
 	UpdateDateColumn,
 } from 'typeorm';
 
+export enum transactionType {
+	DEBIT = 'DEBIT',
+	CREDIT = 'CREDIT',
+}
+
 @Entity({ name: 'expenses' })
 export class ExpenseTrackerEntity {
 	@PrimaryGeneratedColumn('uuid')
@@ -14,11 +19,17 @@ export class ExpenseTrackerEntity {
 	@Column({ type: 'varchar', nullable: true })
 	user_id: string;
 
+	@Column({ type: 'varchar', nullable: true })
+	account_id: string;
+
 	@Column({ type: 'numeric' })
 	amount: number;
 
 	@Column({ type: 'text', nullable: true })
 	description: string | null;
+
+	@Column({ type: 'enum', enum: transactionType })
+	transaction_type: transactionType;
 
 	@Column({ type: 'timestamptz' })
 	date: Date;

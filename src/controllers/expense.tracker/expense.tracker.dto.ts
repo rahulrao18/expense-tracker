@@ -1,24 +1,28 @@
 import { PartialType } from '@nestjs/swagger';
-import { IsString, IsNumber, IsOptional, IsISO8601 } from 'class-validator';
+import { IsString, IsNumber, IsDate, IsEnum } from 'class-validator';
+import { transactionType } from 'src/shared/clients/pgsql/expense.tracker/expense.tracker.entity';
 
 export class CreateExpenseDto {
 	@IsString()
-	clientCode: string;
+	user_id: string;
+
+	@IsString()
+	account_id: string;
 
 	@IsNumber()
 	amount: number;
 
-	@IsString()
-	@IsOptional()
-	description?: string;
-
-	@IsISO8601()
-	@IsOptional()
-	date?: string;
+	@IsEnum(transactionType)
+	transaction_type: transactionType;
 
 	@IsString()
-	@IsOptional()
-	category?: string;
+	description: string;
+
+	@IsDate()
+	date: Date;
+
+	@IsString()
+	category: string;
 }
 
 export class UpdateExpenseDto extends PartialType(CreateExpenseDto) { }

@@ -1,11 +1,14 @@
 import { PartialType } from "@nestjs/swagger";
+import { transactionType } from "./expense.tracker.entity";
 
 export class ExpenseTrackerPgsqlDto {
-	clientCode: string;
+	user_id: string;
+	account_id: string;
 	amount: number;
-	description?: string;
-	date?: string;
-	category?: string;
+	transaction_type: transactionType;
+	description: string;
+	date: Date;
+	category: string;
 }
 
 export class UpdateExpenseTrackerPgsqlDto extends PartialType(ExpenseTrackerPgsqlDto) { }

@@ -4,6 +4,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { ExpenseTrackerEntity } from './clients/pgsql/expense.tracker/expense.tracker.entity';
 import { ExpenseTrackerPgsqlSharedClient } from './clients/pgsql/expense.tracker/expense.tracker.pgsql.shared.client';
+import { UserEntity } from './clients/pgsql/users/users.entity';
+import { UsersPgsqlSharedClient } from './clients/pgsql/users/users.pgsql.shared.client';
+import { AccountEntity } from './clients/pgsql/accounts/accounts.entity';
+import { AccountsPgsqlSharedClient } from './clients/pgsql/accounts/account.pgsql.shared.client';
 
 @Module({
     imports: [
@@ -16,8 +20,8 @@ import { ExpenseTrackerPgsqlSharedClient } from './clients/pgsql/expense.tracker
                     type: 'postgres',
                     entities: [__dirname + '/clients/pgsql/**/*.entity{.ts,.js}'],
                     migrations: [__dirname + '/migrations/*{.ts,.js}'],
-                    synchronize: false,
-                    migrationsRun: false,
+                    synchronize: true,
+                    migrationsRun: true,
                     extra: {
                         max: 10,
                         min: 2,
@@ -42,9 +46,9 @@ import { ExpenseTrackerPgsqlSharedClient } from './clients/pgsql/expense.tracker
             imports: [ConfigModule],
             inject: [ConfigService],
         }),
-        TypeOrmModule.forFeature([ExpenseTrackerEntity]),
+        TypeOrmModule.forFeature([ExpenseTrackerEntity, UserEntity, AccountEntity]),
     ],
-    providers: [ExpenseTrackerPgsqlSharedClient],
-    exports: [ExpenseTrackerPgsqlSharedClient],
+    providers: [ExpenseTrackerPgsqlSharedClient, UsersPgsqlSharedClient, AccountsPgsqlSharedClient],
+    exports: [ExpenseTrackerPgsqlSharedClient, UsersPgsqlSharedClient, AccountsPgsqlSharedClient],
 })
 export class PgSqlSharedClientModule { }
