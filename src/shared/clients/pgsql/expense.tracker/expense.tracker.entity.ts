@@ -11,7 +11,7 @@ export class ExpenseTrackerEntity {
 	@PrimaryGeneratedColumn('uuid')
 	id: string;
 
-	@Column({ type: 'varchar' })
+	@Column({ type: 'varchar', nullable: true })
 	user_id: string;
 
 	@Column({ type: 'numeric' })

@@ -13,8 +13,9 @@ import { ExpenseTrackerPgsqlSharedClient } from './clients/pgsql/expense.tracker
                 // const isProd = configService.get<boolean>('SYSTEM.IS_PROD');
 
                 const options: TypeOrmModuleOptions = {
-                    type: (configService.get<string>('PGSQL.TYPE') as any) || 'postgres',
+                    type: 'postgres',
                     entities: [__dirname + '/clients/pgsql/**/*.entity{.ts,.js}'],
+                    migrations: [__dirname + '/migrations/*{.ts,.js}'],
                     synchronize: false,
                     migrationsRun: false,
                     extra: {
@@ -23,11 +24,12 @@ import { ExpenseTrackerPgsqlSharedClient } from './clients/pgsql/expense.tracker
                         idleTimeoutMillis: 30000,
                         connectionTimeoutMillis: 2000,
                     },
-                    url: configService.get<string>('PGSQL.URL') || process.env.DATABASE_URL,
-                    schema: configService.get<string>('PGSQL.SCHEMA') || 'public',
+                    url: process.env.DATABASE_URL,
+                    schema: 'public',
                 };
 
                 logger.log(`TypeORM options: ${JSON.stringify({
+                    url: process.env.DATABASE_URL,
                     type: options.type,
                     entities: options.entities,
                     synchronize: options.synchronize,
